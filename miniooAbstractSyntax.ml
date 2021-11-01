@@ -1,4 +1,9 @@
 (* File miniooAbstractSyntax.ml *)
+type ptr_decl = 
+  Decl_ptr of cmdAST
+  |Proc_ptr of exprAST
+  |Void
+
 
 type boolEXPR = 
   True 
@@ -7,7 +12,7 @@ type boolEXPR =
   | LessT of exprAST * exprAST 
 
 and exprAST =
-  Ident of string 
+  Ident of string * ptr_decl
   | Field of string 
   | Num of int
   | Diff of exprAST * exprAST 
@@ -17,7 +22,7 @@ and exprAST =
   
 and cmdAST = 
   Decl of string * cmdAST 
-  | Assign of string * exprAST 
+  | Assign of string * exprAST * ptr_decl
   | Seq of cmdAST * cmdAST
   | Skip
   | If of boolEXPR * cmdAST * cmdAST 
@@ -25,6 +30,10 @@ and cmdAST =
   | Malloc of string 
 ;;
 
+let rec ptr_cmd t st = 
+  match t with 
+    Decl (s, c) -> ptr_cmd c (s, Decl_ptr t)::st
+    | Proc (s, c) -> ptr_cmd c (s, Proc_ptr t)::st
 
 let rec print_exprast expr = 
   match expr with 
