@@ -19,7 +19,6 @@ rule token = parse
   | "malloc"   { MALLOC }
   | "skip"     { SKIP }
   | "atom"     { ATOM }
-  | "malloc"   { MALLOC }
   | "eof"      { print_string "eof"; EOF }
   | (['a'-'z'] | ['A'-'Z'])(['a'-'z'] | ['A'-'Z'] | ['0'-'9'])* as ident
                { IDENT ident }

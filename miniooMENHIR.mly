@@ -14,13 +14,14 @@ open MiniooAbstractSyntax
 %token < string > FIELD
 %token < int > NUM
 
-%start <MiniooAbstractSyntax.cmdAST>prog                   /* the entry point */
-%type < cmdAST > assign
-%type < cmdAST > decl
-%type < cmdAST > seqctrl
-%type < cmdAST > cmd
-%type < boolEXPR > bool
-%type < exprAST > expr
+%start <MiniooAbstractSyntax.configuration> prog                   /* the entry point */
+
+%type < ast > assign
+%type < ast > decl
+%type < ast > seqctrl
+%type < ast > cmd
+%type < ast > bool
+%type < ast > expr
 %left MINUS          /* lowest precedence  */
 
 %% /* rules */
@@ -29,34 +30,49 @@ prog :
     cmd EOF { $1 }
 	
 cmd :
-    assign      { $1 }
-  | decl        { $1 }
+    decl        { $1 }    
+  | assign      { $1 }
   | seqctrl     { $1 }
   | malloc      { $1 }
-  
-assign :
-    x = IDENT ASSIGN e = expr  { Assign(x, e) }
-  
+  | reccall     { $1 }
+  | atom        { $1 }
+  | parallel    { $1 }
+
+(* how to write assign with poitner now? a: this will be the heap allocation *) 
+ 
 decl :
     VAR x = IDENT SEMICOLON cmd { Decl(x, $4) }
 
-malloc :
-    MALLOC LPAREN x = IDENT RPAREN { Malloc(x) }
-  
+assign :
+    x = IDENT ASSIGN e = expr  { Assign(x , e) }
+  | e1 = expr LOCATION e2 = expr ASSIGN e3 = expr { FieldAssign(e1, e2, e3) }
+
 seqctrl :
     SKIP                          { Skip }
   | LCUR cmd SEMICOLON cmd RCUR   { Seq($2, $4) }
   | WHILE bool cmd                { While($2, $3) }
   | IF bool cmd ELSE cmd          { If($2, $3, $5) }
 	
+malloc :
+    MALLOC LPAREN x = IDENT RPAREN { Malloc(x) }
+  
+reccall : 
+    e1 = expr LPAREN e2 = expr RPAREN { RecProcCall(e1, e2) }
+
+atom :
+    ATOM LPAREN c = cmd RPAREN    { Atom(c) }
+
+parallel :
+    LCUR c1 = cmd PARALLEL c2 = cmd RCUR { Parallel(c1, c2) }
+
 expr :
-    f = FIELD                     { Field(f) }      /* field expression */
+    f = FIELD                     { Field (f) }      /* field expression */
   | e1 = expr MINUS e2 = expr     { Diff(e1, e2) }  /* arithmetic expression */
   | v = NUM                       { Num v }
-  | v = IDENT                     { Ident v }        /* location expression */
+  | v = IDENT                     { Ident (v, Void) }        /* location expression */
   | NULL                          { Null }
   | e1 = expr LOCATION e2 = expr  { Loc(e1, e2) }
-  | PROCEDURE IDENT COLON cmd     { Proc($2, $4) } /* recursive procedure expression */
+  | PROCEDURE y=IDENT COLON cmd   { Proc(y, $4) } /* recursive procedure expression */
 
 
 bool :
