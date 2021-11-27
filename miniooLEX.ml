@@ -7,24 +7,24 @@ exception Eof
 # 8 "miniooLEX.ml"
 let __ocaml_lex_tables = {
   Lexing.lex_base =
-   "\000\000\228\255\229\255\230\255\231\255\232\255\233\255\235\255\
-    \236\255\237\255\001\000\002\000\079\000\089\000\164\000\239\000\
+   "\000\000\229\255\230\255\231\255\232\255\233\255\234\255\236\255\
+    \237\255\238\255\001\000\002\000\079\000\089\000\164\000\239\000\
     \058\001\133\001\208\001\027\002\102\002\177\002\252\002\071\003\
     \146\003\255\255\221\003\040\004\115\004\190\004\009\005\084\005\
     \159\005\234\005\053\006\128\006\203\006\022\007\097\007\172\007\
     \247\007\066\008\141\008\216\008\035\009\110\009\185\009\004\010\
     \079\010\154\010\229\010\048\011\123\011\198\011\017\012\092\012\
-    \167\012\242\012\061\013\136\013\211\013\030\014\023\000\239\255\
-    \238\255";
+    \167\012\242\012\061\013\136\013\211\013\030\014\023\000\240\255\
+    \239\255";
   Lexing.lex_backtrk =
    "\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\
-    \255\255\255\255\021\000\255\255\015\000\014\000\014\000\014\000\
-    \014\000\014\000\014\000\014\000\014\000\014\000\014\000\014\000\
-    \014\000\255\255\014\000\014\000\001\000\014\000\014\000\014\000\
-    \002\000\014\000\003\000\014\000\014\000\004\000\014\000\014\000\
-    \005\000\006\000\014\000\014\000\014\000\007\000\013\000\014\000\
-    \014\000\014\000\008\000\014\000\014\000\014\000\014\000\009\000\
-    \014\000\014\000\010\000\014\000\014\000\011\000\255\255\255\255\
+    \255\255\255\255\020\000\255\255\014\000\013\000\013\000\013\000\
+    \013\000\013\000\013\000\013\000\013\000\013\000\013\000\013\000\
+    \013\000\255\255\013\000\013\000\001\000\013\000\013\000\013\000\
+    \002\000\013\000\003\000\013\000\013\000\004\000\013\000\013\000\
+    \005\000\006\000\013\000\013\000\013\000\007\000\012\000\013\000\
+    \013\000\013\000\008\000\013\000\013\000\013\000\013\000\009\000\
+    \013\000\013\000\010\000\013\000\013\000\011\000\255\255\255\255\
     \255\255";
   Lexing.lex_default =
    "\255\255\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
@@ -1096,93 +1096,88 @@ let
 
   | 12 ->
 # 22 "miniooLEX.mll"
-               ( MALLOC )
+               ( print_string "eof"; EOF )
 # 1101 "miniooLEX.ml"
 
   | 13 ->
+let
 # 23 "miniooLEX.mll"
-               ( print_string "eof"; EOF )
-# 1106 "miniooLEX.ml"
+                                                                   ident
+# 1107 "miniooLEX.ml"
+= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
+# 24 "miniooLEX.mll"
+               ( IDENT ident )
+# 1111 "miniooLEX.ml"
 
   | 14 ->
 let
-# 24 "miniooLEX.mll"
-                                                                   ident
-# 1112 "miniooLEX.ml"
-= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
 # 25 "miniooLEX.mll"
-               ( IDENT ident )
-# 1116 "miniooLEX.ml"
+                  num
+# 1117 "miniooLEX.ml"
+= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
+# 26 "miniooLEX.mll"
+               ( NUM (int_of_string num) )
+# 1121 "miniooLEX.ml"
 
   | 15 ->
-let
-# 26 "miniooLEX.mll"
-                  num
-# 1122 "miniooLEX.ml"
-= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
 # 27 "miniooLEX.mll"
-               ( NUM (int_of_string num) )
+               ( PARALLEL )
 # 1126 "miniooLEX.ml"
 
   | 16 ->
-# 28 "miniooLEX.mll"
-               ( PARALLEL )
+# 29 "miniooLEX.mll"
+               ( EQUALS )
 # 1131 "miniooLEX.ml"
 
   | 17 ->
 # 30 "miniooLEX.mll"
-               ( EQUALS )
+               ( LT )
 # 1136 "miniooLEX.ml"
 
   | 18 ->
 # 31 "miniooLEX.mll"
-               ( LT )
+               ( COLON )
 # 1141 "miniooLEX.ml"
 
   | 19 ->
-# 32 "miniooLEX.mll"
-               ( COLON )
+# 33 "miniooLEX.mll"
+               ( SEMICOLON )
 # 1146 "miniooLEX.ml"
 
   | 20 ->
 # 34 "miniooLEX.mll"
-               ( SEMICOLON )
+               ( ASSIGN )
 # 1151 "miniooLEX.ml"
 
   | 21 ->
 # 35 "miniooLEX.mll"
-               ( ASSIGN )
+               ( MINUS )
 # 1156 "miniooLEX.ml"
 
   | 22 ->
 # 36 "miniooLEX.mll"
-               ( MINUS )
+               ( LPAREN )
 # 1161 "miniooLEX.ml"
 
   | 23 ->
 # 37 "miniooLEX.mll"
-               ( LPAREN )
+               ( RPAREN )
 # 1166 "miniooLEX.ml"
 
   | 24 ->
-# 38 "miniooLEX.mll"
-               ( RPAREN )
+# 39 "miniooLEX.mll"
+               ( LOCATION )
 # 1171 "miniooLEX.ml"
 
   | 25 ->
 # 40 "miniooLEX.mll"
-               ( LOCATION )
+               ( LCUR )
 # 1176 "miniooLEX.ml"
 
   | 26 ->
 # 41 "miniooLEX.mll"
-               ( LCUR )
-# 1181 "miniooLEX.ml"
-
-  | 27 ->
-# 42 "miniooLEX.mll"
                ( RCUR )
-# 1186 "miniooLEX.ml"
+# 1181 "miniooLEX.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_token_rec lexbuf __ocaml_lex_state

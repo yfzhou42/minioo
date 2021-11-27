@@ -1,7 +1,7 @@
 (* File miniooAbstractSyntax.ml *)
 
 type ast =
-  Ident of string * ptr_decl
+  Ident of string * ptr_decl (**check the delcaration*)
   | Field of string 
   | Num of int
   | Diff of ast * ast 
@@ -19,7 +19,7 @@ type ast =
   | Malloc of ast
   | RecProcCall of ast * ast 
   | Atom of ast
-  | Parallel ast * ast 
+  | Parallel of ast * ast 
   | Empty
 
   | True 
@@ -42,10 +42,10 @@ type boolean =
   |BoolErr 
 ;;
 
-type object = 
+type obj = 
   Obj of int
 and location = 
-  Locat of object
+  Locat of obj
   |LNull 
 ;;
 
@@ -62,7 +62,7 @@ type tva =
   | TvaInt of int
   | TvaLoc of location
   | TvaClo of closure
-  | TvaNull of location
+  | TvaNull of ast
 ;;
   
 type heapentry =  
@@ -84,7 +84,7 @@ type configuration =
 (** second thought, bad decision, now make parameter be the more general ast_s, so stack can also store fields*)
 (** ast -> int -> stack -> stack *)
 let push_stack ast_s l st = 
-  (ast_s, Locat(Obj(l)) :: st
+  (ast_s, Locat(Obj(l))) :: st
 ;;
 
 (* stack -> stack *)
@@ -93,22 +93,6 @@ let pop_stack st =
   [] -> failwith "pop on empty stack"
   |h::t -> t 
 ;;
-
-(* when new frame is pushed on stack (decl, proc) allocate new empty heap entry (which is a list)*)  
-(* when new field is declared the field is appended to the entry at l of the heap  *)
-(* string -> ast -> tva -> int -> heap -> heap  *)
-(** varible heap allocation is always the first of the heap, then fields allocation are appended *)
-let heap_var_allocation s p v l hp = 
-  if l < List.length hp then (Ident(s, Ptr(p)), ref v) ::(List.nth hp l) 
-  else hp @ [Entry [(Ident(s, Ptr(p)), ref v)]]
-;;
-
-(* string -> tva -> int -> heap -> heap  *)
-let heap_field_allocation s v l hp = 
-  if l < List.length hp then (List.nth hp l) @ [(Field(s), ref v)] 
-  else hp @ [Entry [(Field(s), ref v)]]
-;;
-
 
 (* search the stack st for variable ast_s and return the location corresponding to ast_s for heap val storation *) 
 (* ast_s here can only be Ident(s, ptr) *)
@@ -128,6 +112,24 @@ let get_integer_from_loc l =
   |_ -> failwith "not a location"
 
 
+(* when new frame is pushed on stack (decl, proc) allocate new empty heap entry (which is a list)*)  
+(* when new field is declared the field is appended to the entry at l of the heap  *)
+(* string -> ast -> tva -> int -> heap -> heap  *)
+(** varible heap allocation is always the first of the heap, then fields allocation are appended *)
+let heap_var_allocation s t v l hp = 
+  if l < List.length hp then (Ident(s, Ptr(t)), ref v) ::(List.nth hp l) (**bug this is a heapentry but we want a heap*)
+  else hp @ [Entry []::[(Ident(s, Ptr(t)), ref v)]]
+;;
+
+(* string -> tva -> int -> heap -> heap  *)
+let heap_field_allocation s v l hp = 
+  if l < List.length hp then (List.nth hp l) @ [(Field(s), ref v)] 
+  else hp @ [Entry []::[(Field(s), ref v)]]
+;;
+
+
+
+
 (* given the location int l obtained from stack return the val that's in heap at this location that associated to the given ast ast_s*)
 (* ast_s can be Field or Ident *)
 (* ast -> int -> heap -> tva *) 
@@ -135,7 +137,7 @@ let get_val_from_heap ast_s l hp =
   if l >= List.length hp then failwith "location l exceeded the size of heap"
   else let hpentrylist = List.nth hp l in
       if List.mem_assoc ast_s hpentrylist then !(List.assoc ast_s hpentrylist)
-      else failwith "the ast_s is not found in heap"
+      else TvaNull(Null)
 ;;
 
 (* use the index l to get the heaplist in old heap hp, find the Ident or Field *)
@@ -144,21 +146,22 @@ let get_val_from_heap ast_s l hp =
 (* return this new list *)
 (* let l2 = ("b", 1) :: List.remove_assoc "b" l *)
 (* ast -> int -> heap -> heap *) 
-(* Conf(Empty, st, hp') *)
 let change_val_in_heap ast_s l tva hp = 
   if l >= List.length hp then failwith "location l exceeded the size of heap"
-  else 
-    let rec insert ast_s l tva hp = 
-      match hp with
-        [] -> failwith "the ast_s to be set value with is not in hp"
-        |h::t ->  if l = 0 then
-                    if List.mem_assoc ast_s h then 
-                      match ast_s with 
-                        Ident(s, p) -> Entry((ast_s, ref tva):: List.remove_assoc ast_s h)::t
-                        |_ -> Entry(List.remove_assoc ast_s h @ [(ast_s, ref tva)])::t
-                    else failwith "no such variable/field on the heap at location l"
-                  else let ldecrease = l-1 in 
-                    h::insert ast_s ldecrease tva t
+  else insert ast_s l tva hp
+;;
+
+let rec insert ast_s l tva hp = 
+  match hp with
+    [] -> failwith "the ast_s to be set value with is not in hp"
+    |h::t ->  if l = 0 then
+                if List.mem_assoc ast_s h then 
+                  match ast_s with 
+                    Ident(s, p) -> Entry((ast_s, ref tva):: List.remove_assoc ast_s h)::t
+                    |_ -> List.remove_assoc ast_s h @ ([(ast_s, ref tva)]:heapentry)::t
+                else failwith "no such variable/field on the heap at location l"
+              else let hp' = insert ast_s l-1 tva t in 
+                h::hp'
 ;;
 
 (* ast -> stack -> hp -> tva *)
@@ -166,19 +169,28 @@ let rec eval ast_s st hp =
   match ast_s with 
   Num(i) -> TvaInt(i)
   |Field(s) -> TvaField(ast_s)
-  |Ident(s, t) -> let loc = get_loc_from_stack ast_s st in 
-                  let l = get_integer_from_loc loc in
-                    get_val_from_heap ast_s l hp
+  |Ident(s, t) -> match t with 
+                    |Ptr(ast_p) ->  let loc = get_loc_from_stack ast_s st in 
+                                    let l = get_integer_from_loc loc in
+                                    let v = get_val_from_heap ast_s l hp in
+                                      match v with
+                                        TvaNull(Null) -> failwith "variable is not declared"
+                                        |_ -> v
+                    |_ -> failwtih "variable not decl-linked"
   |Diff(e1, e2) -> match e1, e2 with 
                     Num(i1), Num(i2) -> TvaInt(i1-i2)
                     |_, _ -> print_string "e1-e2 eval failure"; TvaError
-  |Null -> print_string "ast_s is Null"; TvaNull(LNull)
+  |Null -> print_string "ast_s is Null"; TvaNull(Null)
   
   |Loc(e1, e2) -> let le1 = eval e1 st hp in 
                   let fe2 = eval e2 st hp in
                     match le1, fe2 with 
-                      TvaLoc(loc), TvaField(ast_s') ->  let l = get_integer_from_loc loc in 
-                                                          get_val_from_heap ast_s' l hp
+                      TvaLoc(loc), TvaField(ast_f) ->  let l = get_integer_from_loc loc in 
+                                                        let val = get_val_from_heap ast_f l hp
+                                                          match val with 
+                                                            TvaNull(Null) -> (** push the declared field into the heap entry and assign it*)
+                                                            |_ -> val
+                                                          
                       |_, _ -> print_string "e1.e2 eval failure"; TvaError
                   
   |Proc(s, c) -> TvaClo(Clo(Ident(s, Ptr(ast_s)), c, st))
@@ -206,23 +218,6 @@ let rec bool_eval ast_s st hp =
                         |_, _ -> BoolErr
   |_ -> BoolErr
 
-(* the type was incompatible thus invented the ast type to unite the cmdAST and exprAST type *)
-(* should I initiate heap here so the function is a trace function *)
-(* ast -> int -> stack -> heap -> configuration *)
-let trace t st hp = 
-  match t with 
-    Empty -> failwith "empty is not a program"
-    |Parallel(c1, c2) -> let i = Random.int 2 in 
-                          if i = 0 then let Conf(t', st', hp') = ptr_cmd c1 st hp in 
-                            -> trace Parallel(t', c1) st' hp'
-                          else let Conf(t', st', hp') = ptr_cmd c2 st hp in 
-                            -> trace Parallel(t', c2) st' hp'
-
-    |_ -> let Conf(t', st', hp') = ptr_cmd t st hp in
-            match t' with 
-            |Empty -> Conf(Empty, st', hp')
-            |_ -> trace t' st' hp'
-;;
     
 let rec ptr_cmd t st hp= 
   match t with 
@@ -234,10 +229,10 @@ let rec ptr_cmd t st hp=
     |Decl (s, c) -> let l = List.length hp in 
                       Conf(Block(c), (push_stack s t l st), (heap_var_allocation s t TvaNull l hp)); 
                   
-    |Seq (c1, c2) -> let l = List.length hp in 
-                      Conf(c1, st, hp); 
-                     let l = List.length hp in 
-                      Conf(c2, st, hp);
+    |Seq (c1, c2) -> let Conf(c1', st', hp') = ptr_cmd c1 st hp in
+                      match c1' with 
+                        Empty -> Conf(c2, st', hp')
+                        |_ -> Conf(Seq(c1', c2), st', hp')
     
     |Block (c) -> match c with 
                     Empty -> Conf (Empty, pop st, hp) 
@@ -261,6 +256,8 @@ let rec ptr_cmd t st hp=
                                             match v1, v2 with 
                                               TvaLoc(loc), TvaField(ast_s') -> let l = get_integer_from_loc loc in 
                                                                                 Conf(Empty, st, change_val_in_heap ast_s' l v' hp)
+                                              |TvaLoc(loc), _ -> let l = get_integer_from_loc loc in
+                                                                  (** push the declared field into the heap entry and assign it*)
                                               |_ -> failwith "in fieldassign shouldn't ever come here but just incase cause eval should already catch this "
     (**i kind of decided that malloc can only be called on ident*)
     (* this is for sure bugged, I need to set the field that malloced to be null or find out how the field will be evaluated in e1.e2 sort of setting *)
@@ -269,16 +266,15 @@ let rec ptr_cmd t st hp=
     |Malloc(ast_s) -> let newl = List.length hp in
                       let loc = get_loc_from_stack ast_s st in
                       let l = get_integer_from_loc loc in
-                      let hp' = (** assign all the feilds but how?????*)
-                        Conf (Empty, st, change_val_in_heap ast_s l TvaLoc(Locat(Obj(newl))) hp')
+                        Conf (Empty, st, change_val_in_heap ast_s l TvaLoc(Locat(Obj(newl))) hp)
 
 
     |RecProcCall(e1, e2) -> let v = eval e1 st hp in 
                               match v with 
                                 TvaClo(clo1) -> match clo1 with 
                                                   Clo(ast_s, c, st') -> let l = List.length hp in
-                                                                        let val = eval e2 st hp in
-                                                                          Conf(Block c, push_stack ast_s l st', change_val_in_heap ast_s l val hp)                          
+                                                                        let recv = eval e2 st hp in
+                                                                          Conf(Block c, push_stack ast_s l st', change_val_in_heap ast_s l recv hp)                          
                                                   |_ -> failwith "recursive call closure not valid"
                                 |_ -> failwith "recursive call on not a closure"
   
@@ -294,17 +290,36 @@ let rec ptr_cmd t st hp=
                                   |BoolF -> Conf(Empty, st, hp)
                                   |_ -> failwith "if condition evaluation error"
     
-    |Atom(c) -> match c with (* fishy recurssion *)
-                  Empty -> Conf(Empty, st, hp)
-                  |_ -> ptr_cmd c st hp
+    |Atom(c) -> let Conf(t', st', hp') = ptr_cmd c st hp in 
+                  match t' with (* fishy recurssion *)
+                    Empty -> Conf(Empty, st', hp')
+                    |_ -> ptr_cmd Atom(t') st' hp'
 
     |Parallel(c1, c2) -> let i = Random.int 2 in 
-                            if i = 0 then Conf(c1, st, hp)
-                            else Conf(c2, st, hp)
+                          if i = 0 then let Conf(t', st', hp') = ptr_cmd c1 st hp in 
+                            match t' with
+                              |Empty -> Conf(c2, st', hp')
+                              |_ -> Conf(Parallel(t', c2), st', hp')
+                          else let Conf(t', st', hp') = ptr_cmd c2 st hp in 
+                            match t' with
+                              |Empty -> Conf(c1, st', hp')
+                              |_ ->Conf(Parallel(c1, t'), st', hp')
 
     |Skip -> Conf(Empty, st, hp)
 
     |_ -> st;;
+  
+(* the type was incompatible thus invented the ast type to unite the cmdAST and exprAST type *)
+(* should I initiate heap here so the function is a trace function *)
+(* ast -> int -> stack -> heap -> configuration *)
+let rec trace t st hp = 
+  match t with 
+    Empty -> failwith "empty is not a program"
+    |_ -> let Conf(t', st', hp') = ptr_cmd t st hp in
+            match t' with 
+            |Empty -> Conf(Empty, st', hp')
+            |_ -> trace t' st' hp'
+;;
 
 (* let rec print_exprast expr = 
   match expr with 

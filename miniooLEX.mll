@@ -20,8 +20,11 @@ rule token = parse
   | "skip"     { SKIP }
   | "atom"     { ATOM }
   | "eof"      { print_string "eof"; EOF }
-  | (['a'-'z'] | ['A'-'Z'])(['a'-'z'] | ['A'-'Z'] | ['0'-'9'])* as ident
+  | (['A'-'Z'])(['a'-'z'] | ['A'-'Z'] | ['0'-'9'])* as ident
                { IDENT ident }
+  | (['a'-'z'] )(['a'-'z'] | ['A'-'Z'] | ['0'-'9'])* as field
+               { FIELD field }
+               (*field with start with lower case*)
   | ['0'-'9']+ as num
                { NUM (int_of_string num) }   
   | "|||"      { PARALLEL }

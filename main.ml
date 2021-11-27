@@ -10,7 +10,7 @@ let lexbuf = Lexing.from_channel stdin in
   try
     let ast = MiniooMENHIR.prog MiniooLEX.token lexbuf in 
     let l = 0 in 
-    ptr_cmd ast l ([]:MiniooAbstractSyntax.stack) ([]:MiniooAbstractSyntax.heap); flush stdout
+    ptr_cmd ast l ([]:MiniooAbstractSyntax.stack) ([]:MiniooAbstractSyntax.heap ); flush stdout
   with Parse_error ->
     (failwith "incorrect pasing") ;
 

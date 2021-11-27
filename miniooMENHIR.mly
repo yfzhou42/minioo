@@ -44,9 +44,9 @@ decl :
     VAR x = IDENT SEMICOLON cmd { Decl(x, $4) }
 
 assign :
-    x = IDENT ASSIGN e = expr  { Assign(x , e) }
-  | e1 = expr LOCATION e2 = expr ASSIGN e3 = expr { FieldAssign(e1, e2, e3) }
-
+    x = expr ASSIGN e = expr  { Assign(x, e) } (* we now only have one type of assign *)
+                                               (* whether it is var assign or field assign need to be done in Assign and match x with Ident/Loc *)
+  
 seqctrl :
     SKIP                          { Skip }
   | LCUR cmd SEMICOLON cmd RCUR   { Seq($2, $4) }
