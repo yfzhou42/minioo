@@ -14,7 +14,7 @@ open MiniooAbstractSyntax
 %token < string > FIELD
 %token < int > NUM
 
-%start <MiniooAbstractSyntax.configuration> prog                   /* the entry point */
+%start <MiniooAbstractSyntax.ast> prog                   /* the entry point */
 
 %type < ast > assign
 %type < ast > decl
@@ -44,7 +44,7 @@ decl :
     VAR x = IDENT SEMICOLON cmd { Decl(x, $4) }
 
 assign :
-    x = expr ASSIGN e = expr  { Assign(x, e) } (* we now only have one type of assign *)
+    x = expr ASSIGN e = expr  { NewAssign(x, e) } (* we now only have one type of assign *)
                                                (* whether it is var assign or field assign need to be done in Assign and match x with Ident/Loc *)
   
 seqctrl :
@@ -54,7 +54,7 @@ seqctrl :
   | IF bool cmd ELSE cmd          { If($2, $3, $5) }
 	
 malloc :
-    MALLOC LPAREN x = IDENT RPAREN { Malloc(x) }
+    MALLOC LPAREN x = expr RPAREN { Malloc(x) }
   
 reccall : 
     e1 = expr LPAREN e2 = expr RPAREN { RecProcCall(e1, e2) }
@@ -66,14 +66,16 @@ parallel :
     LCUR c1 = cmd PARALLEL c2 = cmd RCUR { Parallel(c1, c2) }
 
 expr :
-    f = FIELD                     { Field (f) }      /* field expression */
-  | e1 = expr MINUS e2 = expr     { Diff(e1, e2) }  /* arithmetic expression */
+  s = IDENT                       { Ident (s, Void) }  
+  | f = FIELD                     { Field (f) }       
+  
+  | e1 = expr MINUS e2 = expr     { Diff(e1, e2) }  
   | v = NUM                       { Num v }
-  | v = IDENT                     { Ident (v, Void) }        /* location expression */
-  | NULL                          { Null }
+     
   | e1 = expr LOCATION e2 = expr  { Loc(e1, e2) }
-  | PROCEDURE y=IDENT COLON cmd   { Proc(y, $4) } /* recursive procedure expression */
+  | PROCEDURE y=IDENT COLON cmd    { Proc(y, $4) } 
 
+  | NULL                          { Null }
 
 bool :
     TRUE                          { True }
