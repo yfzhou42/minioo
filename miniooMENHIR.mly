@@ -66,16 +66,16 @@ parallel :
     LCUR c1 = cmd PARALLEL c2 = cmd RCUR { Parallel(c1, c2) }
 
 expr :
-  s = IDENT                       { Ident (s, Void) }  
+  s = IDENT                       { Ident (s) }  
   | f = FIELD                     { Field (f) }       
   
   | e1 = expr MINUS e2 = expr     { Diff(e1, e2) }  
   | v = NUM                       { Num v }
      
   | e1 = expr LOCATION e2 = expr  { Loc(e1, e2) }
-  | PROCEDURE y=IDENT COLON cmd    { Proc(y, $4) } 
+  | PROCEDURE y=IDENT COLON cmd   { Proc(y, $4) } 
 
-  | NULL                          { Null }
+  | NULL                          { Empty }
 
 bool :
     TRUE                          { True }

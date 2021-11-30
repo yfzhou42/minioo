@@ -12,10 +12,11 @@ open MiniooMENHIR;;
 
 let lexbuf = Lexing.from_channel stdin in
   try
+    print_string "I am in lexbuf";
     let ast = MiniooMENHIR.prog MiniooLEX.token lexbuf in 
     (* let linked_ast = link_ast ast in
     print_linked_ast linked_ast; *)
-    print_ast ast;
+    (* print_ast ast; *)
     trace ast ([]:MiniooAbstractSyntax.stack) ([]:MiniooAbstractSyntax.heap);  flush stdout
   with Parse_error ->
     (failwith "incorrect pasing") ;

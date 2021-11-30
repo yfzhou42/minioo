@@ -744,7 +744,7 @@ and _menhir_goto_cmd : _menhir_env -> 'ttv_tail -> _menhir_state -> (
 # 745 "miniooMENHIR.ml"
         ) = 
 # 76 "miniooMENHIR.mly"
-                                   ( Proc(y, _4) )
+                                  ( Proc(y, _4) )
 # 749 "miniooMENHIR.ml"
          in
         _menhir_goto_expr _menhir_env _menhir_stack _menhir_s _v) : 'freshtv228)) : 'freshtv230)
@@ -2042,7 +2042,7 @@ and _menhir_run11 : _menhir_env -> 'ttv_tail -> _menhir_state -> 'ttv_return =
 # 2043 "miniooMENHIR.ml"
     ) = 
 # 78 "miniooMENHIR.mly"
-                                  ( Null )
+                                  ( Empty )
 # 2047 "miniooMENHIR.ml"
      in
     _menhir_goto_expr _menhir_env _menhir_stack _menhir_s _v) : 'freshtv16)
@@ -2166,7 +2166,7 @@ and _menhir_run14 : _menhir_env -> 'ttv_tail -> _menhir_state -> (
 # 2167 "miniooMENHIR.ml"
     ) = 
 # 69 "miniooMENHIR.mly"
-                                  ( Ident (s, Void) )
+                                  ( Ident (s) )
 # 2171 "miniooMENHIR.ml"
      in
     _menhir_goto_expr _menhir_env _menhir_stack _menhir_s _v) : 'freshtv10)
