@@ -1,0 +1,689 @@
+
+I am in lexbuf
+
+ lexer reached end of file 
+
+ Declaration : 
+ 	
+	 var P 
+
+
+ Sequential ctrls : 
+  
+Assign : 
+	 var P 
+	 = 
+
+ Proc : 
+ 	
+	 var Y 
+
+
+ If Else control : 
+	 If : 
+	 var Y 
+	 < 
+	 1 
+Assign : 
+	 var P 
+	 = 
+	 1
+	 Else : 
+ 
+ Recursive Call : 
+ 	 var P 
+ calling on 
+	 var Y 
+	 - 
+	 1
+ End of Recursive Call  
+ 
+ End of If Else control  
+
+
+
+
+ Recursive Call : 
+ 	 var P 
+ calling on 
+	 1
+ End of Recursive Call  
+ 
+ End of Sequential ctrls 
+ 
+
+ end of code
+ 
+!!!Enter Interpreter!!!
+==============before execute one step==================
+******* start of stack ***** 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting Decl
+============== after execute one step==================
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is initiated to null 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+==============before execute one step==================
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is initiated to null 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is initiated to null 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting Seq
+==============before execute one step==================
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is initiated to null 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting Assign
+============== after execute one step==================
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+==============before execute one step==================
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting Recursive Call
+============== after execute one step==================
+******* start of stack ***** 
+       Y value        1 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        1 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        1 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        1 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting If Else
+============== after execute one step==================
+******* start of stack ***** 
+       Y value        1 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        1 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        1 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        1 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting Recursive Call
+============== after execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting If Else
+============== after execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaClo 
+        the stack at closure is 
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting Assign
+============== after execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       Y value        2 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+============== after execute one step==================
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+==============before execute one step==================
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       P value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+============== after execute one step==================
+******* start of stack ***** 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+==============before execute one step==================
+******* start of stack ***** 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+##################### Exit; at the iterator outter loop #######################
+the heap is 
+ 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is P and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 1 
+     &&&&& end of heapentry &&&& 
+     &&&&& start of heapentry &&&& 
+the ident is Y and the value is TvaInt 0 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+
+******* start of stack ***** 
+******* end of stack ***** 

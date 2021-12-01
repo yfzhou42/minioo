@@ -1,0 +1,222 @@
+
+I am in lexbuf
+
+ lexer reached end of file 
+
+ Declaration : 
+ 	
+	 var X 
+
+
+ Sequential ctrls : 
+  
+Assign : 
+	 var X 
+	 = 
+	 5
+
+
+ Parallel : 
+
+ Parallel thread 1: 
+
+ Atom of 
+
+ While control : 
+	 While : 
+ 		 var X 
+	 < 
+	 3 
+Assign : 
+	 var X 
+	 = 
+	 var X 
+	 - 
+	 1
+
+ End of While control 
+	|||
+ Parallel thread 2: 
+ 
+Assign : 
+	 var X 
+	 = 
+	 3
+
+ End of Parallel : 
+
+ End of Sequential ctrls 
+ 
+
+ end of code
+ 
+!!!Enter Interpreter!!!
+==============before execute one step==================
+******* start of stack ***** 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting Decl
+============== after execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is initiated to null 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+==============before execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is initiated to null 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is initiated to null 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting Seq
+==============before execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is initiated to null 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting Assign
+============== after execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is TvaInt 5 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+==============before execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is TvaInt 5 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is TvaInt 5 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting Parallel
+==============before execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is TvaInt 5 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting Atom
+==============before execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is TvaInt 5 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting While
+============== after execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is TvaInt 5 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+==============before execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is TvaInt 5 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+==============before execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is TvaInt 5 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+interpreting Assign
+============== after execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is TvaInt 3 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+==============before execute one step==================
+******* start of stack ***** 
+       X value        0 
+******* end of stack ***** 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is TvaInt 3 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+in a Block
+##################### Exit; at the iterator outter loop #######################
+the heap is 
+ 
+&&&&&&&&&&& start of heap &&&&&&&&&& 
+     &&&&& start of heapentry &&&& 
+the ident is X and the value is TvaInt 3 
+     &&&&& end of heapentry &&&& 
+&&&&&&&&&&& end of heap &&&&&&&&&& 
+heap is printed
+
+******* start of stack ***** 
+******* end of stack ***** 

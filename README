@@ -1,0 +1,10 @@
+To compile simply type:
+make
+
+To run the interpreter type:
+./main
+
+Then end the command, for example:
+var P;{P=proc Y:if Y<1 P=1 else P(Y-1);P(1)}eof
+
+Then press enter key. Always remember to put "eof" at the end of each command

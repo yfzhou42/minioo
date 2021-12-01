@@ -1046,7 +1046,7 @@ and __ocaml_lex_token_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
 # 8 "miniooLEX.mll"
-                         ( print_string "_"; token lexbuf )
+                         (token lexbuf )
 # 1051 "miniooLEX.ml"
 
   | 1 ->
@@ -1071,7 +1071,7 @@ let
 
   | 3 ->
 # 13 "miniooLEX.mll"
-               ( print_string "var"; VAR )
+               ( VAR )
 # 1076 "miniooLEX.ml"
 
   | 4 ->
@@ -1116,7 +1116,7 @@ let
 
   | 12 ->
 # 22 "miniooLEX.mll"
-               ( print_string "eof"; EOF )
+               ( print_string "\n lexer reached end of file \n"; EOF )
 # 1121 "miniooLEX.ml"
 
   | 13 ->

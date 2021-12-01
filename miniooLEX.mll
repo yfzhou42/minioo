@@ -5,12 +5,12 @@ exception Eof
 
 }
 rule token = parse
-    [' ' '\t' '\n' '\r'] { print_string "_"; token lexbuf } (* skip blanks and tabs *)
+    [' ' '\t' '\n' '\r'] {token lexbuf } (* skip blanks and tabs *)
 
   | "true"      as bool { TRUE }
   | "false"     as bool { FALSE }
 
-  | "var"      { print_string "var"; VAR }
+  | "var"      { VAR }
   | "proc"     { PROCEDURE }
   | "null"     { NULL }
   | "if"       { IF }
@@ -19,7 +19,7 @@ rule token = parse
   | "malloc"   { MALLOC }
   | "skip"     { SKIP }
   | "atom"     { ATOM }
-  | "eof"      { print_string "eof"; EOF }
+  | "eof"      { print_string "\n lexer reached end of file \n"; EOF }
   | (['A'-'Z'])(['a'-'z'] | ['A'-'Z'] | ['0'-'9'])* as ident
                { IDENT ident }
   | (['a'-'z'] )(['a'-'z'] | ['A'-'Z'] | ['0'-'9'])* as field
